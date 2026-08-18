@@ -1,0 +1,6 @@
+{
+  "name": "Lewi House Syariah",
+  "description": "Modern and serene syariah hospitality website for Lewi House Syariah in Medan, featuring room booking, facilities, interactive directions, house rules, guest reviews, and contact channels.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

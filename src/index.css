@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Montserrat", sans-serif;
+  --color-primary: #1A365D;
+  --color-primary-dark: #0E1F35;
+  --color-primary-light: #2B4E7D;
+  --color-accent: #FF5E1F;
+  --color-accent-hover: #E54B0F;
+  --color-sand: #FAF9F6;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--font-display);
+}
