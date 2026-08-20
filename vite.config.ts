@@ -5,6 +5,8 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // Base path for GitHub Pages project site (repo: Lewi-House-Web)
+    base: '/Lewi-House-Web/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
