@@ -1,4 +1,4 @@
-import { RoomType, FacilityItem, TransitRoute, LandmarkItem, GuestReview, GalleryPhoto } from '../types';
+import { RoomType, FacilityItem, TransitRoute, LandmarkItem, GuestReview, GalleryPhoto, OTAPlatform } from '../types';
 
 export const PROPERTY_GALLERY_PHOTOS: GalleryPhoto[] = [
   {
@@ -119,7 +119,7 @@ export const HOTEL_INFO = {
   phoneRaw: '+6282168819722',
   whatsappUrl: 'https://wa.me/6282168819722?text=Halo%20Lewi%20House%20Syariah,%20saya%20ingin%20tanya%20ketersediaan%20kamar',
   travelokaUrl: 'https://www.traveloka.com/en-id/hotel/indonesia/lewi-house-syariah-9000000874521',
-  agodaUrl: 'https://www.agoda.com/lewi-house/hotel/medan-id.html?countryId=192&finalPriceView=1&isShowMobileAppPrice=false&cid=1917614&numberOfBedrooms=&familyMode=false&adults=2&children=0&rooms=1&maxRooms=0&checkIn=2026-08-21&isCalendarCallout=false&childAges=&numberOfGuest=0&missingChildAges=false&travellerType=1&showReviewSubmissionEntry=false&currencyCode=IDR&isFreeOccSearch=false&los=1&searchrequestid=423c97aa-0829-44aa-8e30-4da410b39c44',
+  agodaUrl: 'https://www.agoda.com/lewi-house/hotel/medan-id.html',
   googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Lewi+House+Syariah+Medan+Jl.+Sei+Bahkapuran+No.+16A',
   checkInTime: '14:00 (2:00 PM) WIB',
   checkOutTime: '12:00 (12:00 PM) WIB',
@@ -136,6 +136,106 @@ export const HOTEL_INFO = {
   currency: 'IDR',
   heroImage: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1600&q=80',
   exteriorImage: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
+};
+
+/**
+ * Online Travel Agent (OTA) platforms where guests can directly reserve
+ * Lewi House Syariah rooms. Deep links carry check-in / check-out dates
+ * and guest counts so users land straight on the reservation flow.
+ */
+export const OTA_PLATFORMS: OTAPlatform[] = [
+  {
+    id: 'agoda',
+    name: 'Agoda',
+    tagline: 'Best-value deals & instant confirmation',
+    rating: '8.8',
+    ratingLabel: 'Excellent Score',
+    initials: 'A',
+    brandBg: 'bg-red-600',
+    brandText: 'text-white',
+    featured: true,
+  },
+  {
+    id: 'traveloka',
+    name: 'Traveloka',
+    tagline: '140+ verified guest reviews',
+    rating: '4.8',
+    ratingLabel: 'Guest Rating',
+    initials: 'T',
+    brandBg: 'bg-[#0194F3]',
+    brandText: 'text-white',
+  },
+  {
+    id: 'tiket',
+    name: 'tiket.com',
+    tagline: "Indonesia's favorite travel app",
+    initials: 't',
+    brandBg: 'bg-[#FF5E1F]',
+    brandText: 'text-white',
+  },
+  {
+    id: 'booking',
+    name: 'Booking.com',
+    tagline: 'Trusted by travelers worldwide',
+    initials: 'B',
+    brandBg: 'bg-[#003580]',
+    brandText: 'text-white',
+  },
+];
+
+export interface OtaDeepLinkOptions {
+  checkIn?: string; // YYYY-MM-DD
+  checkOut?: string; // YYYY-MM-DD
+  adults?: number;
+}
+
+/** Formats a Date to local YYYY-MM-DD (WIB-safe, not UTC). */
+const toLocalDateString = (d: Date): string => {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+};
+
+/** Default stay window: tomorrow → day after tomorrow (1 night). */
+export const getDefaultStayDates = (): { checkIn: string; checkOut: string } => {
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  const dayAfter = new Date(today);
+  dayAfter.setDate(today.getDate() + 2);
+  return { checkIn: toLocalDateString(tomorrow), checkOut: toLocalDateString(dayAfter) };
+};
+
+/**
+ * Builds a date-aware deep link to the chosen OTA platform so guests can
+ * directly reserve from Traveloka, Agoda, tiket.com, or Booking.com.
+ */
+export const buildOtaDeepLink = (
+  platformId: OTAPlatform['id'] | string,
+  options: OtaDeepLinkOptions = {}
+): string => {
+  const defaults = getDefaultStayDates();
+  const checkIn = options.checkIn || defaults.checkIn;
+  const checkOut = options.checkOut || defaults.checkOut;
+  const adults = Math.max(1, options.adults || 2);
+
+  const inMs = new Date(checkIn).getTime();
+  const outMs = new Date(checkOut).getTime();
+  const nights = Math.max(1, Math.round((outMs - inMs) / 86400000));
+
+  switch (platformId) {
+    case 'agoda':
+      return `https://www.agoda.com/lewi-house/hotel/medan-id.html?checkIn=${checkIn}&los=${nights}&adults=${adults}&rooms=1&finalPriceView=1&isShowMobileAppPrice=false&currencyCode=IDR&travellerType=1&isFreeOccSearch=false`;
+    case 'traveloka':
+      return `https://www.traveloka.com/en-id/hotel/indonesia/lewi-house-syariah-9000000874521?checkIn=${checkIn}&checkOut=${checkOut}&rooms=1&adults=${adults}`;
+    case 'tiket':
+      return `https://www.tiket.com/search?q=${encodeURIComponent('Lewi House Syariah Medan')}`;
+    case 'booking':
+      return `https://www.booking.com/searchresults.id.html?ss=${encodeURIComponent('Lewi House Syariah Medan')}&checkin=${checkIn}&checkout=${checkOut}&group_adults=${adults}&no_rooms=1&group_children=0&selected_currency=IDR`;
+    default:
+      return HOTEL_INFO.agodaUrl;
+  }
 };
 
 export const ROOMS_DATA: RoomType[] = [

@@ -45,18 +45,18 @@ export const InteractiveMap: React.FC = () => {
                 Live Interactive
               </span>
             </h4>
-            <p className="text-xs text-slate-400">Jl. Sei Bahkapuran No. 16A, Sei Sikambing D</p>
+            <p className="text-xs text-slate-300">Jl. Sei Bahkapuran No. 16A, Sei Sikambing D</p>
           </div>
         </div>
 
         {/* View toggles & zoom */}
         <div className="flex items-center gap-2">
           {/* Map style selector */}
-          <div className="flex bg-slate-800 p-0.5 rounded-lg border border-slate-700 text-xs">
+          <div className="flex bg-slate-800 p-0.5 rounded-lg border border-slate-400 text-xs">
             <button
               onClick={() => setMapStyle('streets')}
               className={`px-2.5 py-1 rounded-md transition-colors ${
-                mapStyle === 'streets' ? 'bg-[#1A365D] text-white font-medium' : 'text-slate-400 hover:text-white'
+                mapStyle === 'streets' ? 'bg-[#1A365D] text-white font-semibold' : 'text-white hover:text-white font-medium'
               }`}
             >
               Street
@@ -64,17 +64,17 @@ export const InteractiveMap: React.FC = () => {
             <button
               onClick={() => setMapStyle('satellite')}
               className={`px-2.5 py-1 rounded-md transition-colors ${
-                mapStyle === 'satellite' ? 'bg-[#1A365D] text-white font-medium' : 'text-slate-400 hover:text-white'
+                mapStyle === 'satellite' ? 'bg-[#1A365D] text-white font-semibold' : 'text-white hover:text-white font-medium'
               }`}
             >
               Terrain
             </button>
           </div>
 
-          <div className="flex items-center gap-1 bg-slate-800 px-1 py-1 rounded-lg border border-slate-700">
+          <div className="flex items-center gap-1 bg-slate-800 px-1 py-1 rounded-lg border border-slate-400">
             <button
               onClick={() => handleZoom(0.2)}
-              className="p-1 text-slate-300 hover:text-white hover:bg-slate-700 rounded transition-colors"
+              className="p-1 text-white hover:bg-slate-600 rounded transition-colors"
               title="Zoom In"
               aria-label="Zoom in"
             >
@@ -82,7 +82,7 @@ export const InteractiveMap: React.FC = () => {
             </button>
             <button
               onClick={() => handleZoom(-0.2)}
-              className="p-1 text-slate-300 hover:text-white hover:bg-slate-700 rounded transition-colors"
+              className="p-1 text-white hover:bg-slate-600 rounded transition-colors"
               title="Zoom Out"
               aria-label="Zoom out"
             >
@@ -90,7 +90,7 @@ export const InteractiveMap: React.FC = () => {
             </button>
             <button
               onClick={handleReset}
-              className="p-1 text-slate-300 hover:text-white hover:bg-slate-700 rounded transition-colors"
+              className="p-1 text-white hover:bg-slate-600 rounded transition-colors"
               title="Reset View"
               aria-label="Reset map"
             >
@@ -103,7 +103,7 @@ export const InteractiveMap: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             id="open-google-maps-btn"
-            className="bg-[#1A365D] hover:bg-[#2B4E7D] border border-blue-400/30 text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all shadow-xs"
+            className="bg-[#1A365D] hover:bg-[#2B4E7D] border border-white/80 text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all shadow-xs"
           >
             <span>Open in Google Maps</span>
             <ExternalLink className="w-3 h-3" />
@@ -290,7 +290,7 @@ export const InteractiveMap: React.FC = () => {
                 <div className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border text-xs font-semibold shadow-md ${
                   isSelected 
                     ? 'bg-emerald-700 text-white border-emerald-400 ring-2 ring-emerald-300' 
-                    : 'bg-white/95 text-slate-800 border-slate-300 hover:bg-slate-50'
+                    : 'bg-white text-slate-800 border-slate-500 hover:bg-slate-50'
                 }`}>
                   <span className="text-emerald-600 font-bold">📍</span>
                   <span className="text-[11px] whitespace-nowrap">{lm.name}</span>
@@ -302,7 +302,7 @@ export const InteractiveMap: React.FC = () => {
         </div>
 
         {/* Legend / Quick Route Helper Overlay */}
-        <div className="absolute bottom-3 left-3 z-20 bg-white/90 backdrop-blur-xs px-3 py-2 rounded-xl border border-slate-200/80 shadow-md text-xs space-y-1 max-w-[260px]">
+        <div className="absolute bottom-3 left-3 z-20 bg-white/95 backdrop-blur-xs px-3 py-2 rounded-xl border border-slate-400 shadow-md text-xs space-y-1 max-w-[260px]">
           <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-1">
             <span className="font-bold text-slate-800 text-[11px]">Map Guide</span>
             <button
@@ -312,15 +312,15 @@ export const InteractiveMap: React.FC = () => {
               {showRoutes ? 'Hide Route line' : 'Show Route line'}
             </button>
           </div>
-          <div className="flex items-center gap-2 text-[11px] text-slate-600">
+          <div className="flex items-center gap-2 text-[11px] text-slate-700">
             <span className="w-2.5 h-2.5 rounded-full bg-[#FF5E1F] inline-block"></span>
             <span>Lewi House Syariah</span>
           </div>
-          <div className="flex items-center gap-2 text-[11px] text-slate-600">
+          <div className="flex items-center gap-2 text-[11px] text-slate-700">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block"></span>
             <span>Nearby Medan Hubs</span>
           </div>
-          <p className="text-[10px] text-slate-500 italic pt-0.5">
+          <p className="text-[10px] text-slate-600 italic pt-0.5">
             50m quiet zone off Jl. Sei Sikambing
           </p>
         </div>
@@ -337,7 +337,7 @@ export const InteractiveMap: React.FC = () => {
               </div>
               <button 
                 onClick={() => setSelectedLandmark(null)}
-                className="text-slate-400 hover:text-slate-600 text-sm font-bold p-1"
+                className="text-slate-600 hover:text-slate-900 text-sm font-bold p-1"
               >
                 ✕
               </button>

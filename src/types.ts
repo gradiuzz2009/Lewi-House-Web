@@ -70,6 +70,18 @@ export interface GalleryPhoto {
   featured?: boolean;
 }
 
+export interface OTAPlatform {
+  id: 'agoda' | 'traveloka' | 'tiket' | 'booking';
+  name: string;
+  tagline: string;
+  rating?: string;
+  ratingLabel?: string;
+  initials: string;
+  brandBg: string;
+  brandText: string;
+  featured?: boolean;
+}
+
 export interface BookingFormState {
   roomId: string;
   checkInDate: string;

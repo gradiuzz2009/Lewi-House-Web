@@ -9,7 +9,8 @@ import {
   ThumbsUp, 
   PlusCircle, 
   ExternalLink,
-  Filter
+  Filter,
+  CalendarDays
 } from 'lucide-react';
 
 interface ReviewsScreenProps {
@@ -75,12 +76,12 @@ export const ReviewsScreen: React.FC<ReviewsScreenProps> = ({ onNavigate, onOpen
       </div>
 
       {/* Ratings Overview Card */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        <div className="lg:col-span-4 text-center lg:text-left space-y-4 lg:border-r border-slate-100 lg:pr-8">
-          <div className="space-y-1">
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div className="lg:col-span-4 text-center lg:text-left space-y-4 lg:border-r border-slate-100 lg:pr-10">
+          <div className="space-y-1.5">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Agoda Verified Score</span>
             <div className="flex items-baseline justify-center lg:justify-start gap-2">
-              <span className="font-display font-black text-5xl sm:text-6xl text-red-600">8.8</span>
+              <span className="font-display font-extrabold text-4xl sm:text-5xl text-red-600">8.8</span>
               <span className="text-sm font-semibold text-slate-400">/ 10</span>
             </div>
             <div className="inline-block bg-red-50 text-red-700 font-bold text-xs px-2.5 py-0.5 rounded-full border border-red-200">
@@ -89,11 +90,19 @@ export const ReviewsScreen: React.FC<ReviewsScreenProps> = ({ onNavigate, onOpen
           </div>
 
           <div className="pt-2 flex flex-wrap gap-2 justify-center lg:justify-start">
+            <button
+              onClick={onOpenBooking}
+              className="inline-flex items-center gap-1.5 bg-primary hover:bg-primary-light text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors cursor-pointer"
+            >
+              <CalendarDays className="w-3.5 h-3.5" />
+              <span>Check Availability</span>
+            </button>
             <a
               href={HOTEL_INFO.agodaUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-colors"
+              title="Opens Agoda in a new tab"
+              className="inline-flex items-center gap-1.5 bg-white hover:bg-red-50 border border-red-200 text-red-600 hover:text-red-700 text-xs font-bold px-3 py-1.5 rounded-lg transition-colors"
             >
               <span>Agoda Page</span>
               <ExternalLink className="w-3 h-3" />
@@ -102,7 +111,8 @@ export const ReviewsScreen: React.FC<ReviewsScreenProps> = ({ onNavigate, onOpen
               href={HOTEL_INFO.travelokaUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 bg-[#FF5E1F] hover:bg-[#E54B0F] text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-colors"
+              title="Opens Traveloka in a new tab"
+              className="inline-flex items-center gap-1.5 bg-white hover:bg-orange-50 border border-orange-200 text-accent-hover text-xs font-bold px-3 py-1.5 rounded-lg transition-colors"
             >
               <span>Traveloka (4.8★)</span>
               <ExternalLink className="w-3 h-3" />
@@ -115,44 +125,44 @@ export const ReviewsScreen: React.FC<ReviewsScreenProps> = ({ onNavigate, onOpen
         </div>
 
         {/* Rating Breakdown Bars */}
-        <div className="lg:col-span-8 space-y-3.5">
-          <div className="space-y-1 text-xs">
-            <div className="flex justify-between font-semibold text-slate-700">
+        <div className="lg:col-span-8 space-y-5">
+          <div className="space-y-1.5 text-xs">
+            <div className="flex justify-between items-baseline font-semibold text-slate-700">
               <span>Value for Money (Agoda Verified)</span>
-              <span className="text-emerald-700 font-bold">9.3 / 10 (93%)</span>
+              <span className="text-primary font-extrabold text-[13px]">9.3 / 10 (93%)</span>
             </div>
-            <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-              <div className="h-full bg-emerald-500 rounded-full w-[93%]"></div>
+            <div className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden">
+              <div className="h-full bg-primary rounded-full w-[93%]"></div>
             </div>
           </div>
 
-          <div className="space-y-1 text-xs">
-            <div className="flex justify-between font-semibold text-slate-700">
+          <div className="space-y-1.5 text-xs">
+            <div className="flex justify-between items-baseline font-semibold text-slate-700">
               <span>Staff & 24-Hour Front Desk Service</span>
-              <span className="text-blue-700 font-bold">9.0 / 10 (90%)</span>
+              <span className="text-primary font-extrabold text-[13px]">9.0 / 10 (90%)</span>
             </div>
-            <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-              <div className="h-full bg-blue-600 rounded-full w-[90%]"></div>
+            <div className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden">
+              <div className="h-full bg-primary/85 rounded-full w-[90%]"></div>
             </div>
           </div>
 
-          <div className="space-y-1 text-xs">
-            <div className="flex justify-between font-semibold text-slate-700">
+          <div className="space-y-1.5 text-xs">
+            <div className="flex justify-between items-baseline font-semibold text-slate-700">
               <span>Cleanliness & Bathroom Hygiene</span>
-              <span className="text-amber-700 font-bold">8.9 / 10 (89%)</span>
+              <span className="text-primary font-extrabold text-[13px]">8.9 / 10 (89%)</span>
             </div>
-            <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-              <div className="h-full bg-amber-500 rounded-full w-[89%]"></div>
+            <div className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden">
+              <div className="h-full bg-primary/72 rounded-full w-[89%]"></div>
             </div>
           </div>
 
-          <div className="space-y-1 text-xs">
-            <div className="flex justify-between font-semibold text-slate-700">
+          <div className="space-y-1.5 text-xs">
+            <div className="flex justify-between items-baseline font-semibold text-slate-700">
               <span>Quiet Location in Medan Petisah</span>
-              <span className="text-purple-700 font-bold">8.7 / 10 (87%)</span>
+              <span className="text-primary font-extrabold text-[13px]">8.7 / 10 (87%)</span>
             </div>
-            <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-              <div className="h-full bg-purple-500 rounded-full w-[87%]"></div>
+            <div className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden">
+              <div className="h-full bg-primary/60 rounded-full w-[87%]"></div>
             </div>
           </div>
         </div>

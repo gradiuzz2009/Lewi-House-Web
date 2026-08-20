@@ -2,6 +2,7 @@ import React from 'react';
 import { ScreenId } from '../types';
 import { HOTEL_INFO, ROOMS_DATA, FACILITIES_DATA, REVIEWS_DATA, HOUSE_RULES, PROPERTY_GALLERY_PHOTOS } from '../data/hotelData';
 import { ImageGallery } from '../components/ImageGallery';
+import { OTADeepLinks } from '../components/OTADeepLinks';
 import { 
   Wind, 
   Wifi, 
@@ -28,72 +29,114 @@ interface HomeScreenProps {
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate, onOpenBooking }) => {
   return (
-    <div className="space-y-16 sm:space-y-24">
+    <div className="space-y-20 sm:space-y-28">
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-[580px] lg:min-h-[640px] flex items-center justify-center overflow-hidden bg-slate-900 text-white">
+      <section className="relative min-h-[660px] lg:min-h-[740px] flex items-center justify-center overflow-hidden bg-slate-900 text-white">
         {/* Background Image with optimized dark overlay */}
         <div className="absolute inset-0 z-0">
           <img
             src={HOTEL_INFO.heroImage}
             alt="Lewi House Syariah Medan Interior Room"
-            className="w-full h-full object-cover object-center transform scale-105 filter brightness-70"
+            className="w-full h-full object-cover object-center transform scale-105 filter brightness-90"
           />
-          {/* Multi-stop semi-transparent dark gradient overlay for strict accessibility contrast */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/75 to-slate-900/60" />
+          {/* Lighter gradient overlay: room stays visible while keeping text contrast */}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/60 to-slate-950/30" />
         </div>
 
         {/* Hero Content Container */}
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center space-y-8">
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24 text-center space-y-8">
           {/* Syariah Badge Tag */}
           <div className="inline-flex items-center gap-2 bg-slate-950/80 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide text-amber-300 animate-fadeIn shadow-lg">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
             <span>Syariah-Compliant Hospitality • Medan Petisah</span>
           </div>
 
-          {/* Main Headline & Subtitle */}
-          <div className="space-y-4 max-w-3xl mx-auto">
-            <h1 className="font-display font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-tight text-white drop-shadow-xl">
-              Affordable Comfort in the Heart of Medan
+          {/* Main Headline & Subtitle (responsive size, shorter on mobile) */}
+          <div className="space-y-4 max-w-4xl mx-auto">
+            <h1 className="font-display font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.05] text-white drop-shadow-2xl">
+              <span className="sm:hidden">Affordable Comfort in Medan</span>
+              <span className="hidden sm:inline">Affordable Comfort in the Heart of Medan</span>
             </h1>
-            <p className="text-base sm:text-lg lg:text-xl text-slate-100 font-normal leading-relaxed max-w-2xl mx-auto drop-shadow-md">
-              Clean, secure, and peaceful rooms with 24-hour service and free high-speed Wi-Fi.
+            <p className="text-base sm:text-lg lg:text-xl text-white font-semibold leading-[1.7] max-w-2xl mx-auto drop-shadow-lg">
+              Syariah-certified guesthouse in Medan Petisah, 3.3 km from the city center — clean, secure and peaceful rooms with 24-hour service and free high-speed Wi-Fi.
             </p>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+          {/* Action Buttons: single dominant booking funnel (Check Availability → Rooms → Booking) */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 pt-1">
+            <button
+              id="hero-check-availability-btn"
+              onClick={() => onOpenBooking()}
+              className="w-full sm:w-auto bg-[#FF5E1F] hover:bg-[#E54B0F] text-white px-10 py-5 sm:px-12 sm:py-5 rounded-2xl font-black text-lg sm:text-xl shadow-2xl shadow-orange-950/60 hover:shadow-orange-950/80 ring-4 ring-white/40 hover:ring-white/70 transition-all transform hover:-translate-y-0.5 cursor-pointer flex items-center justify-center gap-3 active:scale-95"
+            >
+              <CalendarCheck className="w-6 h-6" />
+              <span>Check Availability</span>
+            </button>
+
             <button
               id="hero-view-rooms-btn"
               onClick={() => onNavigate('rooms')}
-              className="w-full sm:w-auto bg-[#FF5E1F] hover:bg-[#E54B0F] text-white px-8 py-4 rounded-xl font-bold text-base shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 cursor-pointer flex items-center justify-center gap-2 active:scale-95"
+              className="w-full sm:w-auto bg-white/10 hover:bg-white/25 text-white border-2 border-white/70 hover:border-white px-8 py-4 sm:px-10 sm:py-5 rounded-2xl font-bold text-base sm:text-lg transition-all cursor-pointer flex items-center justify-center gap-2.5 active:scale-95"
             >
+              <BedDouble className="w-5 h-5 text-amber-300" />
               <span>View Our Rooms</span>
-              <ArrowRight className="w-5 h-5" />
-            </button>
-
-            <button
-              id="hero-get-directions-btn"
-              onClick={() => onNavigate('directions')}
-              className="w-full sm:w-auto bg-white/15 hover:bg-white/25 backdrop-blur-md text-white border border-white/30 px-8 py-4 rounded-xl font-bold text-base transition-all transform hover:-translate-y-0.5 cursor-pointer flex items-center justify-center gap-2"
-            >
-              <MapPin className="w-5 h-5 text-amber-400" />
-              <span>Get Map Directions</span>
             </button>
           </div>
 
+          {/* Trust Strip: social proof, starting price, and honest scarcity */}
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-0.5" aria-hidden="true">
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                <span className="font-extrabold text-white">{HOTEL_INFO.rating}/5</span>
+                <span className="text-white/80">from {HOTEL_INFO.reviewCount} guests</span>
+              </div>
+              <span className="hidden sm:inline text-white/40">•</span>
+              <div className="flex items-center gap-1.5">
+                <span className="font-extrabold text-amber-300">Agoda {HOTEL_INFO.agodaRating}</span>
+                <span className="text-white/80">Excellent</span>
+              </div>
+              <span className="hidden sm:inline text-white/40">•</span>
+              <div className="text-white/80">
+                Rooms from <span className="font-extrabold text-white">Rp {HOTEL_INFO.priceStart.toLocaleString('id-ID')}</span>/night
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {[
+                'Syariah Compliant',
+                '24-Hour Front Desk',
+                'Free High-Speed Wi-Fi',
+                `Only ${HOTEL_INFO.totalRooms} Rooms`,
+              ].map((badge) => (
+                <span
+                  key={badge}
+                  className="inline-flex items-center gap-1.5 bg-slate-950/60 backdrop-blur-sm border border-white/20 px-3 py-1.5 rounded-full text-xs font-semibold text-white"
+                >
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  {badge}
+                </span>
+              ))}
+            </div>
+          </div>
+
           {/* Check-in Info Banner */}
-          <div className="pt-6">
-            <div className="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 bg-slate-900/80 backdrop-blur-md border border-slate-700/80 px-6 py-3 rounded-2xl text-xs sm:text-sm text-slate-300">
+          <div className="pt-4 pb-2">
+            <div className="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 bg-slate-950/70 backdrop-blur-md border border-white/25 px-6 py-3 rounded-2xl text-xs sm:text-sm text-white">
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-emerald-400" />
-                <span>Check-In: <strong>{HOTEL_INFO.checkInTime}</strong></span>
+                <span>Check-In: <strong className="text-amber-300 font-extrabold">{HOTEL_INFO.checkInTime}</strong></span>
               </div>
-              <span className="hidden sm:inline text-slate-600">•</span>
+              <span className="hidden sm:inline text-white/40">•</span>
               <div className="flex items-center gap-2">
                 <CalendarCheck className="w-4 h-4 text-amber-400" />
-                <span>Check-Out: <strong>{HOTEL_INFO.checkOutTime}</strong></span>
+                <span>Check-Out: <strong className="text-emerald-300 font-extrabold">{HOTEL_INFO.checkOutTime}</strong></span>
               </div>
-              <span className="hidden sm:inline text-slate-600">•</span>
+              <span className="hidden sm:inline text-white/40">•</span>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span className="text-emerald-300 font-semibold">{HOTEL_INFO.frontDeskHours}</span>
@@ -132,7 +175,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate, onOpenBookin
             {/* Float badge */}
             <div className="absolute -top-4 -right-4 bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl shadow-lg text-xs flex items-center gap-2 border border-amber-300">
               <Star className="w-4 h-4 fill-slate-950" />
-              <span>Agoda 8.8 / 10 • 17 Rooms (4 Floors)</span>
+              <span>Agoda <strong className="text-sm font-black">8.8</strong>/10 • 17 Rooms (4 Floors)</span>
             </div>
           </div>
 
@@ -398,6 +441,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate, onOpenBookin
         </div>
       </section>
 
+      {/* 5.5 OTA DEEP LINKS — RESERVE DIRECTLY ON TRAVELOKA / AGODA / TIKET / BOOKING */}
+      <OTADeepLinks />
+
       {/* 5. GUEST REVIEWS HIGHLIGHT */}
       <section className="bg-slate-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
@@ -433,7 +479,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate, onOpenBookin
                 <div className="font-display font-extrabold text-2xl text-amber-400">4.8</div>
                 <div>
                   <div className="flex text-amber-400 text-xs">★★★★★</div>
-                  <div className="text-[10px] text-slate-400">140+ Guest Reviews</div>
+                  <div className="text-[10px] text-slate-200">140+ Guest Reviews</div>
                 </div>
               </a>
             </div>
@@ -448,20 +494,20 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate, onOpenBookin
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex text-amber-400 text-xs">★★★★★</div>
-                    <span className="text-[10px] text-slate-400 bg-slate-700/80 px-2 py-0.5 rounded">
+                    <span className="text-[10px] text-slate-200 bg-slate-700/80 px-2 py-0.5 rounded">
                       {rev.travelerType}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-300 leading-relaxed italic">
+                  <p className="text-xs text-slate-200 leading-relaxed italic">
                     "{rev.comment}"
                   </p>
                 </div>
                 <div className="pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs">
                   <div>
                     <h5 className="font-bold text-white">{rev.author}</h5>
-                    <p className="text-[10px] text-slate-400">{rev.origin}</p>
+                    <p className="text-[10px] text-slate-300">{rev.origin}</p>
                   </div>
-                  <span className="text-[10px] text-slate-500">{rev.date}</span>
+                  <span className="text-[10px] text-slate-400">{rev.date}</span>
                 </div>
               </div>
             ))}
@@ -493,7 +539,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate, onOpenBookin
             Ready to stay with us?
           </h2>
 
-          <p className="text-slate-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+          <p className="text-slate-200 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
             Lock in our best budget rates today for a peaceful, clean, and comfortable experience in Medan.
           </p>
 
@@ -513,7 +559,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate, onOpenBookin
               href={HOTEL_INFO.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white border border-white/25 px-6 py-4 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-white/5 hover:bg-white/15 text-white border-2 border-white/60 hover:border-white/90 px-6 py-4 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2"
             >
               <Phone className="w-4 h-4 text-emerald-400" />
               <span>WhatsApp Front Desk Inquiries</span>

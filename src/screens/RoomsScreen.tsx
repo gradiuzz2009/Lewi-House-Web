@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ScreenId, RoomType } from '../types';
 import { ROOMS_DATA, HOTEL_INFO, PROPERTY_GALLERY_PHOTOS } from '../data/hotelData';
 import { ImageGallery } from '../components/ImageGallery';
+import { OTADeepLinks } from '../components/OTADeepLinks';
 import { 
   BedDouble, 
   Check, 
@@ -281,6 +282,9 @@ export const RoomsScreen: React.FC<RoomsScreenProps> = ({ onNavigate, onOpenBook
         />
       </div>
 
+      {/* OTA Deep Links — Direct Reservation on Traveloka / Agoda / tiket.com / Booking.com */}
+      <OTADeepLinks />
+
       {/* House Rules Teaser Banner */}
       <div className="bg-slate-900 text-white rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="space-y-2">
@@ -296,7 +300,7 @@ export const RoomsScreen: React.FC<RoomsScreenProps> = ({ onNavigate, onOpenBook
         </div>
         <button
           onClick={() => onNavigate('rules')}
-          className="bg-white/15 hover:bg-white/25 text-white border border-white/30 px-6 py-3 rounded-xl font-bold text-xs whitespace-nowrap transition-colors cursor-pointer"
+          className="bg-white/5 hover:bg-white/15 text-white border-2 border-white/60 hover:border-white/90 px-6 py-3 rounded-xl font-bold text-xs whitespace-nowrap transition-colors cursor-pointer"
         >
           Read Full House Rules →
         </button>

@@ -32,6 +32,14 @@ interface NavbarProps {
   onOpenBooking: (roomId?: string) => void;
 }
 
+/**
+ * Desktop nav prioritizes the conversion path (Rooms, Reviews, Facilities,
+ * Contact). Lower-priority destinations live in the "More" dropdown to
+ * reduce choice overload above the fold.
+ */
+const DESKTOP_PRIMARY_IDS: ScreenId[] = ['home', 'rooms', 'facilities', 'reviews', 'contact'];
+const DESKTOP_MORE_IDS: ScreenId[] = ['directions', 'rules'];
+
 export const Navbar: React.FC<NavbarProps> = ({
   currentScreen,
   onNavigate,
@@ -41,11 +49,13 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [infoDrawerOpen, setInfoDrawerOpen] = useState(false);
   const [copiedAddress, setCopiedAddress] = useState(false);
   const [secondaryExpanded, setSecondaryExpanded] = useState(false);
+  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
 
   const handleNavClick = (id: ScreenId) => {
     onNavigate(id);
     setMobileMenuOpen(false);
     setInfoDrawerOpen(false);
+    setMoreMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -64,18 +74,18 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             {/* Left: 24/7 Service Status & Quick Property Info Trigger */}
             <div className="flex items-center gap-2 sm:gap-3">
-              <span className="inline-flex items-center gap-1.5 bg-[#2B4E7D] px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-emerald-300">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span className="inline-flex items-center gap-1.5 bg-white/5 px-2.5 py-0.5 rounded-full text-[11px] font-normal text-emerald-100/60">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/60"></span>
                 24/7 Front Desk
               </span>
 
               <button
                 id="topbar-info-drawer-toggle"
                 onClick={() => setInfoDrawerOpen(!infoDrawerOpen)}
-                className="inline-flex items-center gap-1 text-[11px] text-slate-200 hover:text-amber-300 transition-colors bg-white/10 hover:bg-white/15 px-2.5 py-0.5 rounded-md cursor-pointer"
+                className="inline-flex items-center gap-1 text-[11px] text-slate-200 hover:text-amber-300/90 transition-colors bg-white/5 hover:bg-white/10 px-2.5 py-0.5 rounded-md cursor-pointer"
                 title="View quick property details"
               >
-                <Info className="w-3 h-3 text-amber-300" />
+                <Info className="w-3 h-3 text-amber-300/70" />
                 <span>Property Info</span>
               </button>
             </div>
@@ -84,11 +94,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="flex items-center gap-3 text-[12px]">
               <a 
                 href={`tel:${HOTEL_INFO.phoneRaw}`} 
-                className="hover:text-emerald-300 transition-colors flex items-center gap-1 font-semibold"
+                className="hover:text-emerald-300/90 transition-colors flex items-center gap-1 font-normal text-slate-200"
                 id="topbar-phone-link"
                 title="Call 24/7 Front Desk"
               >
-                <Phone className="w-3 h-3 text-emerald-400" />
+                <Phone className="w-3 h-3 text-emerald-400/70" />
                 <span>{HOTEL_INFO.phone}</span>
               </a>
 
@@ -98,11 +108,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                 href={HOTEL_INFO.agodaUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="hidden sm:inline-flex items-center gap-1 text-red-300 hover:text-red-200 font-bold bg-red-950/60 border border-red-800/60 px-2 py-0.5 rounded text-[11px]"
+                className="hidden sm:inline-flex items-center gap-1 text-slate-200 hover:text-amber-300/90 font-normal bg-white/5 border border-white/10 px-2 py-0.5 rounded text-[11px]"
                 title="Agoda 8.8 / 10 Exceptional Score"
               >
                 <span>Agoda 8.8</span>
-                <Star className="w-3 h-3 fill-red-400 text-red-400" />
+                <Star className="w-3 h-3 fill-amber-300/60 text-amber-300/60" />
               </a>
             </div>
           </div>
@@ -135,9 +145,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
             </button>
 
-            {/* Desktop Navigation Links (Canonical Global Nodes) */}
-            <nav className="hidden lg:flex items-center gap-1">
-              {GLOBAL_NAV_NODES.map((item) => {
+            {/* Desktop Navigation Links (prioritized conversion path; overflow in "More") */}
+            <nav className="hidden lg:flex items-center gap-1" aria-label="Primary navigation">
+              {GLOBAL_NAV_NODES.filter((node) => DESKTOP_PRIMARY_IDS.includes(node.id)).map((item) => {
                 const Icon = item.icon;
                 const isActive = currentScreen === item.id;
                 return (
@@ -145,17 +155,72 @@ export const Navbar: React.FC<NavbarProps> = ({
                     key={item.id}
                     id={`nav-link-${item.id}`}
                     onClick={() => handleNavClick(item.id)}
-                    className={`px-3.5 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
+                    className={`px-3.5 py-2 rounded-xl text-[13px] font-normal transition-all flex items-center gap-1.5 cursor-pointer ${
                       isActive
-                        ? 'bg-[#1A365D] text-white shadow-xs font-semibold'
+                        ? 'bg-blue-50 text-[#1A365D] border border-blue-200 font-medium'
                         : 'text-slate-600 hover:text-[#1A365D] hover:bg-slate-100/80'
                     }`}
                   >
-                    <Icon className={`w-4 h-4 ${isActive ? 'text-amber-300' : 'text-slate-400'}`} />
+                    <Icon className={`w-4 h-4 ${isActive ? 'text-amber-300' : 'text-slate-500'}`} />
                     {item.label}
                   </button>
                 );
               })}
+
+              {/* "More" dropdown for lower-priority destinations */}
+              <div
+                className="relative"
+                onMouseEnter={() => setMoreMenuOpen(true)}
+                onMouseLeave={() => setMoreMenuOpen(false)}
+              >
+                <button
+                  id="nav-more-menu-btn"
+                  onClick={() => setMoreMenuOpen(!moreMenuOpen)}
+                  aria-haspopup="menu"
+                  aria-expanded={moreMenuOpen}
+                  className={`px-3.5 py-2 rounded-xl text-[13px] transition-all flex items-center gap-1.5 cursor-pointer ${
+                    moreMenuOpen || DESKTOP_MORE_IDS.includes(currentScreen)
+                      ? 'bg-blue-50 text-[#1A365D] border border-blue-200 font-medium'
+                      : 'text-slate-600 hover:text-[#1A365D] hover:bg-slate-100/80'
+                  }`}
+                >
+                  <ChevronDown className={`w-4 h-4 transition-transform ${moreMenuOpen ? 'rotate-180' : ''} ${moreMenuOpen || DESKTOP_MORE_IDS.includes(currentScreen) ? 'text-amber-300' : 'text-slate-500'}`} />
+                  <span>More</span>
+                </button>
+
+                {moreMenuOpen && (
+                  <div
+                    role="menu"
+                    className="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-200 p-2 z-50 animate-fadeIn"
+                  >
+                    {GLOBAL_NAV_NODES.filter((node) => DESKTOP_MORE_IDS.includes(node.id)).map((item) => {
+                      const Icon = item.icon;
+                      const isActive = currentScreen === item.id;
+                      return (
+                        <button
+                          key={item.id}
+                          id={`nav-more-${item.id}`}
+                          role="menuitem"
+                          onClick={() => handleNavClick(item.id)}
+                          className={`w-full flex items-start gap-2.5 px-3 py-2.5 rounded-xl text-left cursor-pointer transition-colors ${
+                            isActive ? 'bg-blue-50' : 'hover:bg-slate-50'
+                          }`}
+                        >
+                          <Icon className={`w-4 h-4 mt-0.5 shrink-0 ${isActive ? 'text-[#1A365D]' : 'text-slate-500'}`} />
+                          <span>
+                            <span className={`block text-[13px] font-semibold ${isActive ? 'text-[#1A365D]' : 'text-slate-800'}`}>
+                              {item.label}
+                            </span>
+                            <span className="block text-[10px] text-slate-500 leading-snug mt-0.5">
+                              {item.description}
+                            </span>
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </nav>
 
             {/* Desktop Right CTA: Single Dominant Primary Booking Path */}
@@ -163,10 +228,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 id="header-book-now-btn"
                 onClick={() => onOpenBooking()}
-                className="bg-[#FF5E1F] hover:bg-[#E54B0F] text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm hover:shadow-md transition-all flex items-center gap-2 cursor-pointer active:scale-95"
+                className="bg-[#FF5E1F] hover:bg-[#E54B0F] text-white px-5 py-2.5 rounded-xl text-sm font-extrabold shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer active:scale-95"
               >
-                <span>Book Room</span>
-                <ExternalLink className="w-3.5 h-3.5" />
+                <span>Check Availability</span>
+                <CalendarCheck className="w-3.5 h-3.5" />
               </button>
             </div>
 
@@ -256,8 +321,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <span>Check-In / Check-Out</span>
                   </div>
                   <div className="space-y-1 text-slate-300">
-                    <div>Check-In Time: <strong>{HOTEL_INFO.checkInTime}</strong> (2:00 PM)</div>
-                    <div>Check-Out Time: <strong>{HOTEL_INFO.checkOutTime}</strong> (12:00 PM)</div>
+                    <div>Check-In Time: <strong className="text-amber-300 font-extrabold">{HOTEL_INFO.checkInTime}</strong></div>
+                    <div>Check-Out Time: <strong className="text-emerald-300 font-extrabold">{HOTEL_INFO.checkOutTime}</strong></div>
                     <div className="text-emerald-300 font-medium">Front Desk: 24 Hours Active Everyday</div>
                   </div>
                 </div>
@@ -347,7 +412,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => setSecondaryExpanded(!secondaryExpanded)}
                 className="w-full flex items-center justify-between px-2 py-1 text-xs font-bold text-slate-600 hover:text-slate-900 cursor-pointer"
               >
-                <span className="uppercase tracking-wider text-[10px] text-slate-400">
+                <span className="uppercase tracking-wider text-[10px] text-slate-500">
                   More Hotel Information ({SECONDARY_NAV_NODES.length})
                 </span>
                 <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${secondaryExpanded ? 'rotate-180' : ''}`} />

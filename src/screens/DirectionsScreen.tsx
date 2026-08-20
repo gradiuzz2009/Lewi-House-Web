@@ -69,11 +69,11 @@ export const DirectionsScreen: React.FC<DirectionsScreenProps> = ({ onNavigate, 
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16 animate-fadeIn">
       {/* 1. Header Title & Subtitle */}
       <div className="space-y-4 max-w-3xl">
-        <div className="inline-flex items-center gap-2 bg-blue-50 text-[#1A365D] border border-blue-200/80 px-3.5 py-1 rounded-full text-xs font-bold tracking-wide">
-          <Navigation className="w-3.5 h-3.5 text-[#1A365D]" />
+        <div className="inline-flex items-center gap-2 bg-blue-50/60 text-slate-600 border border-blue-100 px-3.5 py-1 rounded-full text-xs font-semibold tracking-wide">
+          <Navigation className="w-3.5 h-3.5 text-slate-500" />
           <span>Location & Travel Guide</span>
         </div>
-        <h1 className="font-display font-black text-3xl sm:text-5xl text-[#1A365D] tracking-tight">
+        <h1 className="font-display font-black text-4xl sm:text-6xl text-[#1A365D] tracking-tight leading-tight">
           Find Your Way to Peace & Comfort
         </h1>
         <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
@@ -82,7 +82,7 @@ export const DirectionsScreen: React.FC<DirectionsScreenProps> = ({ onNavigate, 
       </div>
 
       {/* 2. BENTO GRID: Interactive Map + Getting Here + Help Card */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 xl:gap-20">
         {/* Left / Main Bento Item: Interactive Map (8 cols) */}
         <div className="lg:col-span-8 space-y-4">
           <InteractiveMap />
@@ -107,7 +107,9 @@ export const DirectionsScreen: React.FC<DirectionsScreenProps> = ({ onNavigate, 
                 <Train className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
                 <div>
                   <h5 className="font-bold text-slate-800">From Medan Train Station</h5>
-                  <p className="text-[11px] text-slate-500 mt-0.5">~10 mins drive (3.8 km)</p>
+                  <p className="text-[11px] text-slate-600 mt-0.5">
+                    <strong className="font-extrabold text-blue-700">~10 mins drive</strong> • <strong className="font-extrabold text-slate-900">3.8 km</strong>
+                  </p>
                 </div>
               </div>
 
@@ -115,7 +117,9 @@ export const DirectionsScreen: React.FC<DirectionsScreenProps> = ({ onNavigate, 
                 <Plane className="w-4 h-4 text-purple-600 shrink-0 mt-0.5" />
                 <div>
                   <h5 className="font-bold text-slate-800">From Kualanamu Airport (KNO)</h5>
-                  <p className="text-[11px] text-slate-500 mt-0.5">~45-60 mins via Toll Road</p>
+                  <p className="text-[11px] text-slate-600 mt-0.5">
+                    <strong className="font-extrabold text-purple-700">~45–60 mins</strong> via Toll Road
+                  </p>
                 </div>
               </div>
 
@@ -163,8 +167,8 @@ export const DirectionsScreen: React.FC<DirectionsScreenProps> = ({ onNavigate, 
               Our 24-hour reception staff is ready to guide your driver or prepare your check-in key.
             </p>
 
-            <div className="bg-white/10 backdrop-blur-xs p-3.5 rounded-xl border border-white/15 space-y-1">
-              <div className="text-[10px] uppercase font-bold text-slate-300">24/7 Front Desk Phone</div>
+            <div className="bg-white/10 backdrop-blur-xs p-3.5 rounded-xl border border-white/40 space-y-1">
+              <div className="text-[10px] uppercase font-bold text-amber-300">24/7 Front Desk Phone</div>
               <div className="font-display font-extrabold text-base text-white tracking-wide">
                 {HOTEL_INFO.phone}
               </div>
@@ -183,7 +187,7 @@ export const DirectionsScreen: React.FC<DirectionsScreenProps> = ({ onNavigate, 
                 href={HOTEL_INFO.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white/20 hover:bg-white/30 text-white font-bold py-2 px-3 rounded-lg text-xs flex items-center justify-center gap-1.5 transition-colors"
+                className="bg-white/10 hover:bg-white/20 text-white border border-white/50 hover:border-white/80 font-bold py-2 px-3 rounded-lg text-xs flex items-center justify-center gap-1.5 transition-colors"
               >
                 <span>WhatsApp</span>
                 <ExternalLink className="w-3 h-3" />
@@ -230,7 +234,7 @@ export const DirectionsScreen: React.FC<DirectionsScreenProps> = ({ onNavigate, 
                 </div>
                 <div className="truncate">
                   <div className="text-xs font-bold truncate">{route.origin.split('(')[0]}</div>
-                  <div className={`text-[10px] ${isSelected ? 'text-slate-300' : 'text-slate-500'}`}>
+                  <div className={`text-[10px] font-semibold ${isSelected ? 'text-amber-300' : 'text-slate-600'}`}>
                     {route.duration}
                   </div>
                 </div>
@@ -338,7 +342,7 @@ export const DirectionsScreen: React.FC<DirectionsScreenProps> = ({ onNavigate, 
               </div>
 
               <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span className="text-slate-500 font-medium">{lm.distance} from hotel</span>
+                <span className="text-slate-700 font-bold">{lm.distance} from hotel</span>
                 <a
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lm.name + ' Medan')}`}
                   target="_blank"
@@ -365,7 +369,7 @@ export const DirectionsScreen: React.FC<DirectionsScreenProps> = ({ onNavigate, 
         <div className="flex flex-wrap justify-center gap-3 pt-2">
           <button
             onClick={onOpenBooking}
-            className="bg-[#FF5E1F] hover:bg-[#E54B0F] text-white font-bold px-6 py-3 rounded-xl text-xs flex items-center gap-2 shadow-sm cursor-pointer"
+            className="bg-[#FF5E1F] hover:bg-[#E54B0F] text-white font-extrabold px-6 py-3 rounded-xl text-xs flex items-center gap-2 shadow-md ring-2 ring-orange-200 cursor-pointer"
           >
             <span>Book Room on Traveloka</span>
             <ExternalLink className="w-4 h-4" />
@@ -374,7 +378,7 @@ export const DirectionsScreen: React.FC<DirectionsScreenProps> = ({ onNavigate, 
             href={HOTEL_INFO.whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl text-xs flex items-center gap-2 shadow-sm"
+            className="bg-white hover:bg-emerald-50 text-emerald-800 border-2 border-emerald-600 hover:border-emerald-700 font-bold px-6 py-3 rounded-xl text-xs flex items-center gap-2 transition-colors"
           >
             <Phone className="w-4 h-4" />
             <span>Chat WhatsApp (+62 821-6881-9722)</span>

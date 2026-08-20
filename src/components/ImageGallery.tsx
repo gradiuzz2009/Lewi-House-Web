@@ -313,7 +313,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               e.stopPropagation();
               handlePrev();
             }}
-            className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-20 bg-black/70 hover:bg-black/90 text-white backdrop-blur-md border border-white/25 p-3 sm:p-3.5 rounded-full shadow-2xl transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
+            className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-20 bg-black/70 hover:bg-black/90 text-white backdrop-blur-md border border-white/60 p-3 sm:p-3.5 rounded-full shadow-2xl transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
             aria-label="Previous image"
           >
             <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -325,7 +325,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
               e.stopPropagation();
               handleNext();
             }}
-            className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-20 bg-black/70 hover:bg-black/90 text-white backdrop-blur-md border border-white/25 p-3 sm:p-3.5 rounded-full shadow-2xl transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
+            className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-20 bg-black/70 hover:bg-black/90 text-white backdrop-blur-md border border-white/60 p-3 sm:p-3.5 rounded-full shadow-2xl transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
             aria-label="Next image"
           >
             <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
